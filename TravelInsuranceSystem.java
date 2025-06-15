@@ -22,8 +22,8 @@ public class TravelInsuranceSystem {
             //Process
             switch(option){
                 case 1 -> System.out.println(insurancePlan.display_plans());
-                case 2 -> insurancePlan.calculate_insurance_premium();
-                case 3-> System.out.println(insurancePlan);
+                case 2 -> System.out.println(insurancePlan.calculate_insurance_premium());
+                case 3-> System.out.println(insurancePlan.report);
                 case 4 -> System.out.println("Thank You For Using TravelSafe Insurance!");
                 case 5 -> System.out.println("\n**INVALID CHOICE**\n(Please Choose A Valid Choice [1,2,3,4])");
             }

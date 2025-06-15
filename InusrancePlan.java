@@ -12,7 +12,9 @@ public class InusrancePlan {
     private boolean extreme_coverage;
     private boolean family_coverage;
     private final double FEE = 10;
-    private final double SERVICE_CHARGE = 0.8;  
+    private final double SERVICE_CHARGE = 0.8; 
+    
+    Report report = new Report();
 
 
     public String display_plans(){
@@ -35,26 +37,34 @@ public class InusrancePlan {
     }
 
     //Public Method to Calculatoe The Insurance Premium Without Tax
-    public double calculate_insurance_premium() {
+    public String calculate_insurance_premium() {
         //Setting Variable
        destination = setDestination();
        duration = setDuration();
+       //reset for next loop
+       extreme_coverage_fee = 0;
+       depedents = 0;
+       depedents_fee = 0;
+
        //setting price per days based on destination
        switch(destination.charAt(0))
        {
         case 'd':
         price_per_day = (duration > 14) ? 4 : (duration>=8) ? 4.5 : 5;
         destination = "Domestic";
+        report.setDuration_DOM(price_per_day * duration);
         break;
 
         case 'a':
         price_per_day = (duration > 14)? 7 : (duration >= 8) ? 7.5 : 8;
          destination = "Asia";
+         report.setDuratioon_Asia(price_per_day * duration);
         break;
 
         case 'w':
         price_per_day = (duration > 14) ? 10 : (duration >= 8) ? 11 : 12;
          destination = "Worldwide";
+         report.setDuration_World(totalPrice * duration);
         break;
        }
        //Asking user if they want to add extreme coverage
@@ -62,7 +72,7 @@ public class InusrancePlan {
        //looping until user enter either yes or no
        while(choice != 'y' && choice != 'n') {
        //Prompt user input
-       System.out.println("\nDo You Wnat To Add Extreme Sport Coverage?");
+       System.out.println("\nDo You want To Add Extreme Sport Coverage?");
        System.out.println("(Note: This will increase your premium by 20% to cover high-risk activities such as skydiving, scuba diving, bungee jumping, or skiing.)");
        System.out.print("Please Enter Y/N:");
        Scanner scanner = new Scanner(System.in);
@@ -81,9 +91,9 @@ public class InusrancePlan {
         //looping until user enter either yes or no
        while(choice != 'y' && choice != 'n') {
        //Prompt user input
-       System.out.println("\nDo You Wnat To Add Family Coverage?");
+       System.out.println("\nDo You want To Add Family Coverage?");
        System.out.println("(Note: Family coverage allows you to include your spouse and/or children under the same insurance plan." +
-                            "An additional fee of RM50 will be charged **per dependent**.) ");
+                            "An additional fee of RM20 will be charged **per dependent**.) ");
        System.out.print("Please Enter Y/N:");
        Scanner scanner = new Scanner(System.in);
        choice = scanner.nextLine().toLowerCase().charAt(0);
@@ -96,18 +106,42 @@ public class InusrancePlan {
        //Ask for number of depedents if user wants to add-on family coverage
        if(family_coverage == true){
        depedents = setDepedents();
-       depedents_fee = depedents * 50;
+       depedents_fee = depedents * 20;
        }
        subPrice += price_per_day * duration  + (depedents_fee) + (10) + extreme_coverage_fee; 
        totalPrice = subPrice + (subPrice * 0.08);
-       return subPrice;
+
+       //CALCULATING REPORT
+       switch(destination.charAt(0)){
+         case 'D' :{
+          report.sumTotalDOM(totalPrice);
+          report.sumDepedentsDOM(depedents_fee);
+          report.sumSportDOM(extreme_coverage_fee);
+          break;
+         }
+        case 'A':{
+          report.sumTotalASIA(totalPrice);
+          report.sumDepedentsASIA(depedents_fee);
+          report.sumSportASIA(extreme_coverage_fee); 
+          break;       
+         }
+        case 'W':{
+          report.sumTotalWORLD(totalPrice);
+          report.sumDepedentsWORLD(depedents_fee);
+          report.sumSportWORLD(extreme_coverage_fee); 
+          break; 
+        }
+        }
+       return toString();
+
+       
     }
 
     public String toString()
     {
         String report = String.format( "\n\n======= TravelSafe Insurance Summary Report =======\n" +
                         "--- Trip Details ---" +
-                        "\nDestination: %s" + destination +
+                        "\nDestination: %s" +
                         "\nDuration: %d days" +
                         "\nExtrem Sports Coverage: %s "+
                         "\nFamily Coverage: %s ", 
@@ -117,10 +151,10 @@ public class InusrancePlan {
                         family_coverage ? "Yes" : "No"
                         ) + String.format("\n\n--- Premium Breakdown ---" +
                         "\nBase Premium: RM %.2f x %d days = RM %.2f" +
-                        "\nExtreme Sports Coverage (20%%): %.2f "+
-                        "\nDepedent Fee (%d depedents x RM 50): RM%.2f" +
+                        "\nExtreme Sports Coverage (20%%): RM %.2f "+
+                        "\nDepedent Fee (%d depedents x RM 50): RM %.2f" +
                         "\nStamp & Duty Fee: +RM %.2f" +
-                        "\nSubtotal: RM%.2f" +
+                        "\nSubtotal: RM %.2f" +
                         "\nService Charge (8%%): RM %.2f",
                         price_per_day, duration, duration * price_per_day,
                         extreme_coverage_fee,
@@ -130,7 +164,7 @@ public class InusrancePlan {
                         (subPrice * 0.08))+
                         String.format("\n\n--- Total Premium ---\n" +
                         "Total Price: RM%.2f" +
-                        "=====================================================",
+                        "\n=====================================================",
                         totalPrice);
                         
                         
@@ -185,7 +219,7 @@ public class InusrancePlan {
         {
         //Prompt Input
          System.out.println("\nHow Many Depedents (excluding yourself) will be covered under this policy?" +
-        "(Note: Each Depedents Adds RM50 To The Total Premium)");
+        "(Note: Each Depedents Adds RM20 To The Total Premium)");
         System.out.print("Number Of Depedents:");
         Scanner scanner = new Scanner(System.in);
         depedents = scanner.nextInt();
