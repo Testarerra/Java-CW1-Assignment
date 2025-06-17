@@ -2,15 +2,34 @@ public class Report {
     private double totalDOM = 0;
     private double totalASIA = 0;
     private double totalWORLD = 0;
-    public double domDuration = 0;
-    public double asiaDuration = 0;
-    public double worldDuration = 0;
+    private double domDuration = 0;
+    private double asiaDuration = 0;
+    private double worldDuration = 0;
     private double sport_DOM;
     private double sport_ASIA;
     private double sport_WORLD;
     private double depedents_DOM;
     private double depedents_ASIA;
     private double depedents_WORLD;
+
+    public Report(double totalDOM, double totalASIA, double totalWORLD,
+                  double domDuration, double asiaDuration, double worldDuration,
+                  double sport_DOM, double sport_ASIA, double sport_WORLD,
+                  double depedents_DOM, double depedents_ASIA, double depedents_WORLD) {
+        this.totalDOM = totalDOM;
+        this.totalASIA = totalASIA;
+        this.totalWORLD = totalWORLD;
+        this.domDuration = domDuration;
+        this.asiaDuration = asiaDuration;
+        this.worldDuration = worldDuration;
+        this.sport_DOM = sport_DOM;
+        this.sport_ASIA = sport_ASIA;
+        this.sport_WORLD = sport_WORLD;
+        this.depedents_DOM = depedents_DOM;
+        this.depedents_ASIA = depedents_ASIA;
+        this.depedents_WORLD = depedents_WORLD;
+    }
+
 
     // Getters
     public double getTotalDOM() {

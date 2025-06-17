@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class TravelInsuranceSystem {
     public static void main(String[] args) {
-        InusrancePlan insurancePlan = new InusrancePlan();
+        InusrancePlan insurancePlan = new InusrancePlan("",0,0,0,false,false);
         int option;
         do{
             //Display Menu

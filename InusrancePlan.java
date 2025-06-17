@@ -1,5 +1,8 @@
 import java.util.Scanner;
 public class InusrancePlan {
+
+   
+
     //initializing
     private String destination;
     private int duration;
@@ -14,7 +17,17 @@ public class InusrancePlan {
     private final double FEE = 10;
     private final double SERVICE_CHARGE = 0.8; 
     
-    Report report = new Report();
+     public InusrancePlan(String destination, int duration, int dependents, double price_per_day,
+                         boolean extreme_coverage, boolean family_coverage) {
+        this.destination = destination;
+        this.duration = duration;
+        this.depedents = dependents;
+        this.price_per_day = price_per_day;
+        this.extreme_coverage = extreme_coverage;
+        this.family_coverage = family_coverage;
+    }
+
+    Report report = new Report(subPrice,subPrice,subPrice,duration,duration,duration,0,0,0,depedents_fee,depedents_fee,depedents_fee);
 
 
     public String display_plans(){
@@ -194,7 +207,7 @@ public class InusrancePlan {
         while(isValid == false) {
          //Prompt user for input
         System.out.println(display_plans());
-        System.out.print("Please Enter Your Destination (DOMESTIC/ASIA/WORLDWIDE):");
+        System.out.print("Please Enter Your Destination (D/A/W):");
         Scanner scanner = new Scanner(System.in);
         destination = scanner.nextLine().toLowerCase(); //convert user input to lower case for easier validation
         //check if user input is either /d/a/w if not loop again
